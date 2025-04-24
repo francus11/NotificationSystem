@@ -8,10 +8,10 @@ using Domain.Entities;
 
 namespace Infrastructure.DbContexts
 {
-    class SQLiteDbContext : DbContext
+    public class AppDbContext : DbContext
     {
         public DbSet<Notification> Notifications { get; set; }
-        public SQLiteDbContext(DbContextOptions<SQLiteDbContext> options) : base(options)
+        public AppDbContext(DbContextOptions<AppDbContext> options) : base(options)
         {
         }
         protected override void OnModelCreating(ModelBuilder modelBuilder)
