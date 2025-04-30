@@ -14,5 +14,7 @@ namespace Domain.Interfaces
         Task<IEnumerable<Notification>> GetAllNotificationsAsync();
         Task UpdateNotificationAsync(Notification notification);
         Task DeleteNotificationAsync(int id);
+        Task<IEnumerable<Notification>> GetDueNotificationsAsync(DateTime dueDate);
+        Task MarkAsSentAsync(IEnumerable<Notification> notifications);
     }
 }
