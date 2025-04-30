@@ -1,0 +1,79 @@
+services:
+  api:
+    build:
+      context: .
+      dockerfile: API/Dockerfile
+    ports:
+      - "5000:80"
+    depends_on:
+      - redis
+    environment:
+      - ASPNETCORE_ENVIRONMENT=Development
+    volumes:
+      - ./logs/api:/app/logs
+      - notifications_db:/app/notifications.db
+
+  scheduler:
+    build:
+      context: .
+      dockerfile: NotificationSchedulerService/Dockerfile
+    depends_on:
+      - redis
+    environment:
+      - ASPNETCORE_ENVIRONMENT=Development
+    volumes:
+      - ./logs/scheduler:/app/logs
+      - notifications_db:/app/notifications.db
+
+  sender1:
+    build:
+      context: .
+      dockerfile: NotificationSenderService/Dockerfile
+    depends_on:
+      - redis
+    environment:
+      - ASPNETCORE_ENVIRONMENT=Development
+      - INSTANCE_NAME=sender1
+    ports:
+      - "5000:80"
+      - "9187:9187"
+    volumes:
+      - ./logs/sender1:/app/logs
+
+  sender2:
+    build:
+      context: .
+      dockerfile: NotificationSenderService/Dockerfile
+    depends_on:
+      - redis
+    environment:
+      - ASPNETCORE_ENVIRONMENT=Development
+      - INSTANCE_NAME=sender2
+    ports:
+      - "5001:80"
+      - "9188:9187"
+    volumes:
+      - ./logs/sender2:/app/logs
+
+  sender3:
+    build:
+      context: .
+      dockerfile: NotificationSenderService/Dockerfile
+    depends_on:
+      - redis
+    environment:
+      - ASPNETCORE_ENVIRONMENT=Development
+      - INSTANCE_NAME=sender3
+    ports:
+      - "5002:80"
+      - "9189:9187"
+    volumes:
+      - ./logs/sender3:/app/logs
+
+  redis:
+    image: redis:7
+    ports:
+      - "6379:6379"
+volumes:
+  notifications_db:
+    driver: local

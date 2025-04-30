@@ -1,0 +1,10 @@
+global:
+  scrape_interval: 5s  # Jak często Prometheus ma zbierać metryki
+
+scrape_configs:
+  - job_name: 'notification_senders'
+    static_configs:
+      - targets:
+          - 'notification_sender1:9187'  # Target dla pierwszej instancji
+          - 'notification_sender2:9187'  # Target dla drugiej instancji
+          - 'notification_sender3:9187'  # Target dla trzeciej instancji
